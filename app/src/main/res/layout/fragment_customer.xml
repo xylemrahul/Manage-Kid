@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <AutoCompleteTextView
+            android:id="@+id/et_code"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="@dimen/layout_margin"
+            android:clickable="false"
+            android:background="@drawable/rounded_rect"
+            android:hint="@string/code"
+            android:inputType="number"
+            android:padding="@dimen/textview_padding"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/textsize_18" />
+
+        <RelativeLayout
+            android:id="@+id/spinner_relative"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_code"
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/spinner_background">
+
+            <Spinner
+                android:id="@+id/sp_product"
+                style="@android:style/Widget.Holo.Light.Spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="" />
+        </RelativeLayout>
+
+
+        <AutoCompleteTextView
+            android:id="@+id/et_prev_unit_price"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/spinner_relative"
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/rounded_rect"
+            android:hint="@string/prev_unit_price"
+            android:clickable="false"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/textsize_18" />
+
+        <AutoCompleteTextView
+            android:id="@+id/et_unit_price"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/et_prev_unit_price"
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/rounded_rect"
+            android:hint="@string/unit_price"
+            android:inputType="number"
+            android:maxLength="10"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/textsize_18" />
+
+        <AutoCompleteTextView
+            android:id="@+id/et_qty"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/et_unit_price"
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/rounded_rect"
+            android:hint="@string/qty"
+            android:inputType="number"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/textsize_18" />
+
+
+        <AutoCompleteTextView
+            android:id="@+id/et_total"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/et_qty"
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/rounded_rect"
+            android:hint="@string/total"
+            android:inputType="number"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/textsize_18" />
+
+
+        <AutoCompleteTextView
+            android:id="@+id/et_paid"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/et_total"
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/rounded_rect"
+            android:hint="@string/paid"
+            android:inputType="number"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/textsize_18" />
+
+
+        <AutoCompleteTextView
+            android:id="@+id/et_balance"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/et_paid"
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/rounded_rect"
+            android:hint="@string/balance"
+            android:inputType="number"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/textsize_18" />
+
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_balance"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/layout_margin"
+            android:background="@drawable/btnsignin_gradient"
+            android:text="@string/save"
+            android:textColor="#FFFFFF" />
+
+        <TextView
+            android:id="@+id/tx_final"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnSave"
+            android:layout_margin="@dimen/layout_margin"
+            android:textSize="@dimen/textsize_18"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:padding="@dimen/textview_padding"/>
+    </RelativeLayout>
+</ScrollView>
