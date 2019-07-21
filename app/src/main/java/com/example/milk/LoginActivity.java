@@ -4,13 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -57,8 +58,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initializeGUI() {
 
-        logo = findViewById(R.id.ivLogLogo);
-        ivSignIn = findViewById(R.id.ivSignIn);
         email = findViewById(R.id.atvEmailLog);
         password = findViewById(R.id.atvPasswordLog);
         forgotPass = findViewById(R.id.tvForgotPass);

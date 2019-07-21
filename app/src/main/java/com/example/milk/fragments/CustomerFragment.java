@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -22,9 +23,7 @@ import com.example.milk.retrofit.RetrofitAdapter;
 import com.example.milk.retrofit.RetrofitService;
 import com.example.milk.utils.AppUtilities;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,13 +32,12 @@ import retrofit2.Response;
 
 public class CustomerFragment extends Fragment {
 
-    EditText code, prev_unit_price, unit_price, qty, total, paid, balance;
+    AutoCompleteTextView code, prev_unit_price, unit_price, qty, total, paid, balance;
     TextView tx_final;
     Button saveBtn;
     Spinner spProduct;
     private ProgressDialog progressDialog;
     Type typeObj = null;
-    List<Product> productList = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,7 +46,6 @@ public class CustomerFragment extends Fragment {
         if (getArguments() != null) {
             typeObj = getArguments().getParcelable(AppUtilities.type_obj);
         }
-
     }
 
     @Nullable
@@ -75,10 +72,10 @@ public class CustomerFragment extends Fragment {
         tx_final = view.findViewById(R.id.tx_final);
     }
 
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         RetrofitService retrofitService = RetrofitAdapter.create();
         Call<List<Product>> fetchProducts = retrofitService.getProducts();
         progressDialog = new ProgressDialog(getActivity());
@@ -91,7 +88,8 @@ public class CustomerFragment extends Fragment {
                 if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
                 }
-                productList = response.body();
+                List<Product> productList = response.body();
+                showDefaultProduct(productList);
             }
 
             @Override
@@ -100,24 +98,9 @@ public class CustomerFragment extends Fragment {
             }
         });
 
-        code.setText(typeObj.getInfo().getCode());
-        prev_unit_price.setText(typeObj.getLatest().getUnitPrice());
-        qty.setText(typeObj.getLatest().getQuantity());
-
-        List<String> productTitle = new ArrayList<>();
-        for (Product product : productList) {
-            if(typeObj.getLatest().getId() == product.getId()){
-                
-            }
-            productTitle.add(product.getTitle());
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, productTitle);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spProduct.setAdapter(adapter);
-
-
-
+        code.setText(String.valueOf(typeObj.getInfo().getCode()));
+        prev_unit_price.setText(String.valueOf(typeObj.getLatest().getUnitPrice()));
+        qty.setText(String.valueOf(typeObj.getLatest().getQuantity()));
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +114,31 @@ public class CustomerFragment extends Fragment {
 //                }
             }
         });
+
+    }
+
+    private void showDefaultProduct(List<Product> productList) {
+
+        int defaultIndex = 0;
+
+        List<String> productTitle = new ArrayList<>();
+        for (Product product : productList) {
+
+            productTitle.add("Rahul");
+            productTitle.add("Raj");
+            productTitle.add("Raj1");
+            productTitle.add("Raj2");
+            productTitle.add(product.getTitle());
+            if(typeObj.getLatest().getId() == product.getId()){
+                defaultIndex = productList.indexOf(product);
+            }
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, productTitle);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spProduct.setAdapter(adapter);
+        spProduct.setSelection(defaultIndex);
+
     }
 
     public boolean validateInput(String name, String phn, String add) {

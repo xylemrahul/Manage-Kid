@@ -16,6 +16,7 @@ import info.androidhive.barcode.BarcodeReader;
 public class BarCodeActivity extends AppCompatActivity implements BarcodeReader.BarcodeReaderListener {
 
     private BarcodeReader barcodeReader;
+    private boolean flag;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,10 +31,13 @@ public class BarCodeActivity extends AppCompatActivity implements BarcodeReader.
 
         Log.e("", "onScanned: " + barcode.displayValue);
         barcodeReader.playBeep();
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra(AppUtilities.barcode_value, barcode.displayValue);
-        startActivity(intent);
-        finish();
+        if(!flag) {
+            flag = true;
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(AppUtilities.barcode_value, barcode.displayValue);
+            startActivity(intent);
+            finish();
+        }
     }
 
     @Override

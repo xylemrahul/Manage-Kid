@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 public class RegistrationActivity extends AppCompatActivity {
 
     private ImageView logo, joinus;

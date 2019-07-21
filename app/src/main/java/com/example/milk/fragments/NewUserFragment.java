@@ -2,12 +2,12 @@ package com.example.milk.fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.text.InputFilter;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -29,7 +29,7 @@ import retrofit2.Response;
 
 public class NewUserFragment extends Fragment {
 
-    EditText pName, mobile, address, code;
+    AutoCompleteTextView pName, mobile, address, code;
     Button saveBtn;
     Spinner spType;
     String barcode;

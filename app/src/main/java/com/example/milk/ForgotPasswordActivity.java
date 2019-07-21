@@ -10,9 +10,10 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-    private ImageView ivLogo, ivPWreset;
+    private ImageView ivPWreset;
     private TextView tvInfo, tvSignin;
     private AutoCompleteTextView atvEmail;
     private Button btnReset;
@@ -69,8 +70,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
 
     private void initializeGUI() {
-
-        ivLogo = findViewById(R.id.ivLogLogo);
         ivPWreset = findViewById(R.id.ivPassReset);
         tvInfo = findViewById(R.id.tvPWinfo);
         tvSignin = findViewById(R.id.tvGoBack);
