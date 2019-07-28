@@ -5,10 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,9 +30,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CustomerFragment extends Fragment {
+public class SupplierFragment extends Fragment {
 
-    AutoCompleteTextView code, prev_unit_price, unit_price, qty, total, paid, balance;
+    AutoCompleteTextView code, mrp, unit_price, selling_price,qty, total, paid, balance;
     TextView tx_final;
     Button saveBtn;
     Spinner spProduct;
@@ -52,17 +52,19 @@ public class CustomerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_customer, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_supplier, container, false);
         return rootView;
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         code = view.findViewById(R.id.et_code);
-        prev_unit_price = view.findViewById(R.id.et_prev_unit_price);
+        mrp = view.findViewById(R.id.et_mrp);
         unit_price = view.findViewById(R.id.et_unit_price);
+        selling_price = view.findViewById(R.id.et_sp);
         qty = view.findViewById(R.id.et_qty);
         total = view.findViewById(R.id.et_total);
         paid = view.findViewById(R.id.et_paid);
@@ -71,7 +73,6 @@ public class CustomerFragment extends Fragment {
         saveBtn = view.findViewById(R.id.btnSave);
         tx_final = view.findViewById(R.id.tx_final);
     }
-
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -99,8 +100,6 @@ public class CustomerFragment extends Fragment {
         });
 
         code.setText(String.valueOf(typeObj.getInfo().getCode()));
-        prev_unit_price.setText(String.valueOf(typeObj.getLatest().getUnitPrice()));
-        qty.setText(String.valueOf(typeObj.getLatest().getQuantity()));
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,17 +115,14 @@ public class CustomerFragment extends Fragment {
         });
     }
 
-    private void showDefaultProduct(List<Product> productList) {
+    private void showDefaultProduct(final List<Product> productList) {
 
-        int defaultIndex = 0;
+        final int defaultIndex = 0;
 
         List<String> productTitle = new ArrayList<>();
+        productTitle.add(0, "Select Products");
         for (Product product : productList) {
-
             productTitle.add(product.getTitle());
-            if(typeObj.getLatest().getId() == product.getId()){
-                defaultIndex = productList.indexOf(product);
-            }
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, productTitle);
@@ -134,7 +130,39 @@ public class CustomerFragment extends Fragment {
         spProduct.setAdapter(adapter);
         spProduct.setSelection(defaultIndex);
 
-        unit_price.setText(String.valueOf(productList.get(defaultIndex).getSellingPrice()));
+        spProduct.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int i, long l) {
+                if(i > 0)
+                {
+                    tx_final.setVisibility(View.VISIBLE);
+                    loadItemsAtPosition(i, productList);
+                }else{
+                    unit_price.getText().clear();
+                    mrp.getText().clear();
+                    qty.getText().clear();
+                    selling_price.getText().clear();
+                    total.getText().clear();
+                    balance.getText().clear();
+
+                    tx_final.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void loadItemsAtPosition(int i, List<Product> productList) {
+
+        unit_price.setText(String.valueOf(productList.get(i-1).getUnitPrice()));
+        mrp.setText(String.valueOf(productList.get(i-1).getMrp()));
+        qty.setText(String.valueOf(productList.get(i-1).getQuantity()));
+        selling_price.setText(String.valueOf(productList.get(i-1).getSellingPrice()));
+
         int final_total = Integer.parseInt(unit_price.getText().toString()) * Integer.parseInt(qty.getText().toString());
         int final_balance = final_total - Integer.valueOf(paid.getText().toString());
 
@@ -144,21 +172,4 @@ public class CustomerFragment extends Fragment {
         tx_final.setText("Total : " +final_total+ "    " + "Paid : " + paid.getText().toString() + "    " + "Balance : " + final_balance );
     }
 
-    public boolean validateInput(String name, String phn, String add) {
-
-        if (name.isEmpty()) {
-//            pName.setError("Email field is empty.");
-            return false;
-        }
-        if (phn.isEmpty()) {
-//            mobile.setError("Password is empty.");
-            return false;
-        }
-
-        if (add.isEmpty()) {
-//            address.setError("Password is empty.");
-            return false;
-        }
-        return true;
-    }
 }

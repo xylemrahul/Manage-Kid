@@ -14,23 +14,23 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/layout_margin"
             android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/code"
+            android:text="Code"
             android:textSize="@dimen/textsize_22" />
 
-            <AutoCompleteTextView
-                android:id="@+id/et_code"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@+id/tx_code"
-                android:layout_margin="@dimen/layout_margin"
-                android:background="@drawable/rounded_rect"
-                android:clickable="false"
-                android:hint="@string/code"
-                android:inputType="number"
-                android:padding="@dimen/textview_padding"
-                android:textColor="@color/white"
-                android:textColorHint="@color/gray"
-                android:textSize="@dimen/textsize_18" />
+        <AutoCompleteTextView
+            android:id="@+id/et_code"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/tx_code"
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/rounded_rect"
+            android:clickable="false"
+            android:hint="@string/code"
+            android:inputType="number"
+            android:padding="@dimen/textview_padding"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/textsize_18" />
 
         <TextView
             android:id="@+id/tx_product"
@@ -59,25 +59,25 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/tx_prev_unit_price"
+            android:id="@+id/tx_mrp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/spinner_relative"
             android:layout_marginStart="@dimen/layout_margin"
             android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/prev_unit_price"
+            android:text="MRP"
             android:textSize="@dimen/textsize_22" />
 
         <AutoCompleteTextView
-            android:id="@+id/et_prev_unit_price"
+            android:id="@+id/et_mrp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_below="@+id/tx_prev_unit_price"
+            android:layout_below="@+id/tx_mrp"
             android:layout_margin="@dimen/layout_margin"
             android:background="@drawable/rounded_rect"
             android:clickable="false"
             android:enabled="false"
-            android:hint="@string/prev_unit_price"
+            android:hint="@string/mrp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:textColor="@color/white"
@@ -88,10 +88,10 @@
             android:id="@+id/tx_unit_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/et_prev_unit_price"
+            android:layout_below="@+id/et_mrp"
             android:layout_marginStart="@dimen/layout_margin"
             android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/unit_price"
+            android:text="Unit Price(Buying)"
             android:textSize="@dimen/textsize_22" />
 
         <AutoCompleteTextView
@@ -111,13 +111,40 @@
             android:textSize="@dimen/textsize_18" />
 
         <TextView
-            android:id="@+id/tx_qty"
+            android:id="@+id/tx_sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/et_unit_price"
             android:layout_marginStart="@dimen/layout_margin"
             android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/qty"
+            android:text="@string/selling_price"
+            android:textSize="@dimen/textsize_22" />
+
+        <AutoCompleteTextView
+            android:id="@+id/et_sp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/tx_sp"
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/rounded_rect"
+            android:hint="@string/selling_price"
+            android:inputType="number"
+            android:maxLength="10"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textSize="@dimen/textsize_18" />
+
+
+        <TextView
+            android:id="@+id/tx_qty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_sp"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:text="Quantity"
             android:textSize="@dimen/textsize_22" />
 
         <AutoCompleteTextView
@@ -142,7 +169,7 @@
             android:layout_below="@+id/et_qty"
             android:layout_marginStart="@dimen/layout_margin"
             android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/total"
+            android:text="Total"
             android:textSize="@dimen/textsize_22" />
 
         <AutoCompleteTextView
@@ -168,7 +195,7 @@
             android:layout_below="@+id/et_total"
             android:layout_marginStart="@dimen/layout_margin"
             android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/paid"
+            android:text="Paid"
             android:textSize="@dimen/textsize_22" />
 
         <AutoCompleteTextView
@@ -194,7 +221,7 @@
             android:layout_below="@+id/et_paid"
             android:layout_marginStart="@dimen/layout_margin"
             android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/balance"
+            android:text="Balance"
             android:textSize="@dimen/textsize_22" />
 
         <AutoCompleteTextView

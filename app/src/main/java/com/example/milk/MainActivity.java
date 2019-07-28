@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.milk.fragments.CustomerFragment;
 import com.example.milk.fragments.NewUserFragment;
+import com.example.milk.fragments.SupplierFragment;
 import com.example.milk.model.Type;
 import com.example.milk.retrofit.RetrofitAdapter;
 import com.example.milk.retrofit.RetrofitService;
@@ -63,8 +64,12 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.container, newFragment);
                     transaction.commit();
                 }else {
-
-                    Fragment newFragment = new CustomerFragment();
+                    Fragment newFragment = null;
+//                    if(response.body().getType() == "customer") {
+//                        newFragment = new CustomerFragment();
+//                    }else{
+                        newFragment = new SupplierFragment();
+//                    }
                     bundle.putParcelable(AppUtilities.type_obj,response.body());
                     newFragment.setArguments(bundle);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

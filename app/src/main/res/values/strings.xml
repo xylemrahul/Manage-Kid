@@ -32,4 +32,6 @@
     <string name="total">Total</string>
     <string name="paid">Paid</string>
     <string name="balance">Balance</string>
+    <string name="mrp">MRP</string>
+    <string name="selling_price">Selling Price</string>
 </resources>
