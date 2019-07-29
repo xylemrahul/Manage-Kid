@@ -17,13 +17,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.milk.R;
+import com.example.milk.model.Details;
 import com.example.milk.model.Product;
 import com.example.milk.model.Type;
 import com.example.milk.retrofit.RetrofitAdapter;
 import com.example.milk.retrofit.RetrofitService;
 import com.example.milk.utils.AppUtilities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
@@ -112,6 +115,7 @@ public class CustomerFragment extends Fragment {
 //                if (validateInput(name, phn, add)) {
 //                    Toast.makeText(MainActivity.this, "Saved to Db", Toast.LENGTH_SHORT).show();
 //                }
+                saveDetails();
             }
         });
     }
@@ -135,11 +139,45 @@ public class CustomerFragment extends Fragment {
         spProduct.setSelection(defaultIndex);
 
         unit_price.setText(String.valueOf(productList.get(defaultIndex).getSellingPrice()));
-        int final_total = Integer.parseInt(unit_price.getText().toString()) * Integer.parseInt(qty.getText().toString());
-        int final_balance = final_total - Integer.valueOf(paid.getText().toString());
+    }
+
+
+    private void saveDetails(){
+
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HHmmss").format(Calendar.getInstance().getTime());
+        Details details = new Details(null, typeObj.getInfo().getCode(),typeObj.getLatest().getUnitPrice(), Integer.parseInt(total.getText().toString()),
+                typeObj.getLatest().getQuantity(), typeObj.getLatest().getProductId(), Integer.parseInt(balance.getText().toString()),
+                Integer.parseInt(paid.getText().toString()) ,null, timeStamp, 0,0 );
+
+        RetrofitService retrofitService = RetrofitAdapter.create();
+        Call<Details> detailsCall = retrofitService.saveIncomming(details);
+
+        progressDialog.setMessage("Saving data...");
+        progressDialog.show();
+
+        detailsCall.enqueue(new Callback<Details>() {
+            @Override
+            public void onResponse(Call<Details> call, Response<Details> response) {
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                loadDetails(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Details> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void loadDetails(Details body){
+        int final_total = body.getTotal();
+        int final_balance = body.getBalance();
 
         total.setText(String.valueOf(final_total));
         balance.setText(String.valueOf(final_balance));
+        paid.setText(String.valueOf(body.getPaid()));
 
         tx_final.setText("Total : " +final_total+ "    " + "Paid : " + paid.getText().toString() + "    " + "Balance : " + final_balance );
     }

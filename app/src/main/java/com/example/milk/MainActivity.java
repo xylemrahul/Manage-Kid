@@ -66,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
                 }else {
                     Fragment newFragment = null;
 //                    if(response.body().getType() == "customer") {
-//                        newFragment = new CustomerFragment();
+                        newFragment = new CustomerFragment();
 //                    }else{
-                        newFragment = new SupplierFragment();
+//                        newFragment = new SupplierFragment();
 //                    }
                     bundle.putParcelable(AppUtilities.type_obj,response.body());
                     newFragment.setArguments(bundle);

@@ -1,5 +1,6 @@
 package com.example.milk.retrofit;
 
+import com.example.milk.model.Details;
 import com.example.milk.model.Info;
 import com.example.milk.model.Product;
 import com.example.milk.model.Type;
@@ -25,4 +26,7 @@ public interface RetrofitService {
 
     @GET("getProducts")
     Call<List<Product>> getProducts();
+
+    @POST("incomming")
+    Call<Details> saveIncomming(@Body Details details );
 }
