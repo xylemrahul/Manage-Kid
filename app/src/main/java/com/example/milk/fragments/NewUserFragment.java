@@ -3,9 +3,12 @@ package com.example.milk.fragments;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -23,6 +26,7 @@ import com.example.milk.model.Type;
 import com.example.milk.retrofit.RetrofitAdapter;
 import com.example.milk.retrofit.RetrofitService;
 import com.example.milk.utils.AppUtilities;
+import com.google.android.material.textfield.TextInputLayout;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,7 +34,8 @@ import retrofit2.Response;
 
 public class NewUserFragment extends Fragment {
 
-    AutoCompleteTextView pName, mobile, address, code;
+    EditText code,pName, mobile, address;
+    private TextInputLayout nameLayout, mobileLayout, addressLayout;
     Button saveBtn;
     Spinner spType;
     Long barcode;
@@ -66,6 +71,14 @@ public class NewUserFragment extends Fragment {
         mobile = view.findViewById(R.id.et_mobile);
         address = view.findViewById(R.id.et_address);
         saveBtn = view.findViewById(R.id.btnSave);
+
+        nameLayout = view.findViewById(R.id.ip_name);
+        mobileLayout = view.findViewById(R.id.ip_mobile);
+        addressLayout = view.findViewById(R.id.ip_address);
+
+        pName.addTextChangedListener(new MyTextWatcher(nameLayout));
+        mobile.addTextChangedListener(new MyTextWatcher(mobileLayout));
+        address.addTextChangedListener(new MyTextWatcher(addressLayout));
     }
 
     @Override
@@ -87,55 +100,119 @@ public class NewUserFragment extends Fragment {
                 String phn = mobile.getText().toString();
                 String add = address.getText().toString();
 
-                if (validateInput(name, phn, add)) {
-                    Info info = new Info(barcode, name, phn, add);
-
-                    RetrofitService retrofitService = RetrofitAdapter.create();
-                    Call<Type> register = null;
-                    if (type.equals("customer")) {
-                        register = retrofitService.saveCustomer(info);
-                    } else {
-                        register = retrofitService.saveSupplier(info);
-                    }
-                    progressDialog.setMessage("Saving details...");
-                    progressDialog.show();
-                    register.enqueue(new Callback<Type>() {
-                        @Override
-                        public void onResponse(Call<Type> call, Response<Type> response) {
-                            if (progressDialog.isShowing()) {
-                                progressDialog.dismiss();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Type> call, Throwable t) {
-                            if (progressDialog.isShowing()) {
-                                progressDialog.dismiss();
-                            }
-
-                            Toast.makeText(getActivity(), getResources().getString(R.string.error_msg_save), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                if (!validateName()) {
+                    return;
                 }
+
+                if (!validateMobile()) {
+                    return;
+                }
+
+                if (!validateAddress()) {
+                    return;
+                }
+                Info info = new Info(barcode, name, phn, add);
+
+                RetrofitService retrofitService = RetrofitAdapter.create();
+                Call<Type> register = null;
+                if (type.equals("customer")) {
+                    register = retrofitService.saveCustomer(info);
+                } else {
+                    register = retrofitService.saveSupplier(info);
+                }
+                progressDialog.setMessage("Saving details...");
+                progressDialog.show();
+                register.enqueue(new Callback<Type>() {
+                    @Override
+                    public void onResponse(Call<Type> call, Response<Type> response) {
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Type> call, Throwable t) {
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+
+                        Toast.makeText(getActivity(), getResources().getString(R.string.error_msg_save), Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
 
-    public boolean validateInput(String name, String phn, String add) {
 
-        if (name.isEmpty()) {
-            pName.setError("Name field is empty");
+    private boolean validateName() {
+        if (pName.getText().toString().trim().isEmpty()) {
+            nameLayout.setError(getString(R.string.err_name));
+            requestFocus(pName);
             return false;
-        }
-        if (phn.isEmpty() || phn.length() < 10) {
-            mobile.setError("Enter valid mobile number");
-            return false;
+        } else {
+            nameLayout.setErrorEnabled(false);
         }
 
-        if (add.isEmpty()) {
-            address.setError("Address field is empty.");
-            return false;
-        }
         return true;
+    }
+
+    private boolean validateMobile() {
+
+        if (mobile.getText().toString().trim().isEmpty() || mobile.getText().toString().trim().length() < 10) {
+            mobileLayout.setError(getString(R.string.err_mobile));
+            requestFocus(mobile);
+            return false;
+        } else {
+            mobileLayout.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private boolean validateAddress() {
+        if (address.getText().toString().trim().isEmpty()) {
+            addressLayout.setError(getString(R.string.err_address));
+            requestFocus(address);
+            return false;
+        } else {
+            addressLayout.setErrorEnabled(false);
+        }
+
+        return true;
+    }
+
+    private void requestFocus(View view) {
+        if (view.requestFocus()) {
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        }
+    }
+
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        private MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        public void afterTextChanged(Editable editable) {
+            switch (view.getId()) {
+                case R.id.ip_name:
+                    validateName();
+                    break;
+                case R.id.ip_mobile:
+                    validateMobile();
+                    break;
+                case R.id.ip_address:
+                    validateAddress();
+                    break;
+            }
+        }
     }
 }

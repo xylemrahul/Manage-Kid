@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         mContainer = findViewById(R.id.container);
 
         RetrofitService retrofitService = RetrofitAdapter.create();
-        Call<Type> infoCall = retrofitService.listRepos(8982922);
+        Call<Type> infoCall = retrofitService.listRepos(barcodeValue);
 
         progressDialog.setMessage("Fetching details...");
         progressDialog.show();
