@@ -11,6 +11,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -106,7 +107,11 @@ public class SupplierFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable t) {
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
 
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_msg_fetch), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -215,7 +220,11 @@ public class SupplierFragment extends Fragment {
 
             @Override
             public void onFailure(Call<Details> call, Throwable t) {
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
 
+                Toast.makeText(getActivity(), getResources().getString(R.string.error_msg_save), Toast.LENGTH_SHORT).show();
             }
         });
     }

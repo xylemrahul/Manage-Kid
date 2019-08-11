@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -89,6 +90,8 @@ public class MainActivity extends AppCompatActivity {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.container, newFragment);
                     transaction.commit();
+                }else{
+                    Toast.makeText(MainActivity.this, getResources().getString(R.string.error_msg_fetch), Toast.LENGTH_SHORT).show();
                 }
             }
         });
