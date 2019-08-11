@@ -2,6 +2,8 @@ package com.example.milk.fragments;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +43,7 @@ public class CustomerFragment extends Fragment {
     Spinner spProduct;
     private ProgressDialog progressDialog;
     Type typeObj = null;
+    int mrp;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,13 +111,6 @@ public class CustomerFragment extends Fragment {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                String name = pName.getText().toString();
-//                String phn = mobile.getText().toString();
-//                String add = address.getText().toString();
-
-//                if (validateInput(name, phn, add)) {
-//                    Toast.makeText(MainActivity.this, "Saved to Db", Toast.LENGTH_SHORT).show();
-//                }
                 saveDetails();
             }
         });
@@ -139,15 +135,22 @@ public class CustomerFragment extends Fragment {
         spProduct.setSelection(defaultIndex);
 
         unit_price.setText(String.valueOf(productList.get(defaultIndex).getSellingPrice()));
+        mrp = productList.get(defaultIndex).getMrp();
+
+        int final_total = Integer.parseInt(unit_price.getText().toString()) * Integer.parseInt(qty.getText().toString());
+        int final_balance = final_total - Integer.valueOf(paid.getText().toString());
+
+        total.setText(String.valueOf(final_total));
+        balance.setText(String.valueOf(final_balance));
     }
 
-
     private void saveDetails(){
+        int updated_balance = Integer.valueOf(total.getText().toString()) - Integer.valueOf(paid.getText().toString());
 
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HHmmss").format(Calendar.getInstance().getTime());
         Details details = new Details(null, typeObj.getInfo().getCode(),typeObj.getLatest().getUnitPrice(), Integer.parseInt(total.getText().toString()),
-                typeObj.getLatest().getQuantity(), typeObj.getLatest().getProductId(), Integer.parseInt(balance.getText().toString()),
-                Integer.parseInt(paid.getText().toString()) ,null, timeStamp, 0,0 );
+                typeObj.getLatest().getQuantity(), typeObj.getLatest().getProductId(), updated_balance,
+                Integer.parseInt(paid.getText().toString()) ,null, timeStamp, mrp,Integer.valueOf(unit_price.getText().toString()) );
 
         RetrofitService retrofitService = RetrofitAdapter.create();
         Call<Details> detailsCall = retrofitService.saveIncomming(details);
@@ -173,30 +176,14 @@ public class CustomerFragment extends Fragment {
 
     private void loadDetails(Details body){
         int final_total = body.getTotal();
-        int final_balance = body.getBalance();
+        int final_paid = body.getPaid();
 
-        total.setText(String.valueOf(final_total));
+        int final_balance = final_total - final_paid;
+
         balance.setText(String.valueOf(final_balance));
-        paid.setText(String.valueOf(body.getPaid()));
+        total.setText(String.valueOf(final_total));
+        paid.setText(String.valueOf(final_paid));
 
-        tx_final.setText("Total : " +final_total+ "    " + "Paid : " + paid.getText().toString() + "    " + "Balance : " + final_balance );
-    }
-
-    public boolean validateInput(String name, String phn, String add) {
-
-        if (name.isEmpty()) {
-//            pName.setError("Email field is empty.");
-            return false;
-        }
-        if (phn.isEmpty()) {
-//            mobile.setError("Password is empty.");
-            return false;
-        }
-
-        if (add.isEmpty()) {
-//            address.setError("Password is empty.");
-            return false;
-        }
-        return true;
+        tx_final.setText("Total : " +final_total+ "    " + "Paid : " + final_paid + "    " + "Balance : " + final_balance );
     }
 }

@@ -29,12 +29,12 @@ public class BarCodeActivity extends AppCompatActivity implements BarcodeReader.
     @Override
     public void onScanned(Barcode barcode) {
 
-        Log.e("", "onScanned: " + barcode.displayValue);
+        Log.e("barcode value", "onScanned: " + barcode.displayValue);
         barcodeReader.playBeep();
         if(!flag) {
             flag = true;
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(AppUtilities.barcode_value, barcode.displayValue);
+            intent.putExtra(AppUtilities.barcode_value, Long.valueOf(barcode.displayValue));
             startActivity(intent);
             finish();
         }

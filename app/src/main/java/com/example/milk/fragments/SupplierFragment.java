@@ -17,27 +17,35 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.milk.R;
+import com.example.milk.model.Details;
 import com.example.milk.model.Product;
 import com.example.milk.model.Type;
 import com.example.milk.retrofit.RetrofitAdapter;
 import com.example.milk.retrofit.RetrofitService;
 import com.example.milk.utils.AppUtilities;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+//Which id to best sent in case a tx_product is selected from dropdown. Do we send the same tx_product ID from latest tag in service 1 . In case of "Select Products" or"+" button,
+//tx_product id sent is 0 .
 public class SupplierFragment extends Fragment {
 
-    AutoCompleteTextView code, mrp, unit_price, selling_price,qty, total, paid, balance;
+    AutoCompleteTextView code, mrp, unit_price, selling_price,qty, total, paid, balance, tx_product;
     TextView tx_final;
-    Button saveBtn;
+    Button saveBtn, addBtn;
     Spinner spProduct;
     private ProgressDialog progressDialog;
     Type typeObj = null;
+    private boolean flag;
+    int productId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,8 +77,10 @@ public class SupplierFragment extends Fragment {
         total = view.findViewById(R.id.et_total);
         paid = view.findViewById(R.id.et_paid);
         balance = view.findViewById(R.id.et_balance);
+        tx_product = view.findViewById(R.id.et_product);
         spProduct = view.findViewById(R.id.sp_product);
         saveBtn = view.findViewById(R.id.btnSave);
+        addBtn = view.findViewById(R.id.btn_add);
         tx_final = view.findViewById(R.id.tx_final);
     }
 
@@ -78,6 +88,7 @@ public class SupplierFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         RetrofitService retrofitService = RetrofitAdapter.create();
+
         Call<List<Product>> fetchProducts = retrofitService.getProducts();
         progressDialog = new ProgressDialog(getActivity());
         progressDialog.setMessage("Please wait...");
@@ -104,13 +115,17 @@ public class SupplierFragment extends Fragment {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                String name = pName.getText().toString();
-//                String phn = mobile.getText().toString();
-//                String add = address.getText().toString();
+                saveDetails();
+            }
+        });
 
-//                if (validateInput(name, phn, add)) {
-//                    Toast.makeText(MainActivity.this, "Saved to Db", Toast.LENGTH_SHORT).show();
-//                }
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addBtn.setVisibility(View.INVISIBLE);
+                spProduct.setVisibility(View.GONE);
+                tx_product.setVisibility(View.VISIBLE);
+                productId = 0;
             }
         });
     }
@@ -136,8 +151,10 @@ public class SupplierFragment extends Fragment {
                 if(i > 0)
                 {
                     tx_final.setVisibility(View.VISIBLE);
+                    productId =typeObj.getLatest().getProductId();
                     loadItemsAtPosition(i, productList);
                 }else{
+                    productId = 0;
                     unit_price.getText().clear();
                     mrp.getText().clear();
                     qty.getText().clear();
@@ -168,8 +185,53 @@ public class SupplierFragment extends Fragment {
 
         total.setText(String.valueOf(final_total));
         balance.setText(String.valueOf(final_balance));
+    }
 
-        tx_final.setText("Total : " +final_total+ "    " + "Paid : " + paid.getText().toString() + "    " + "Balance : " + final_balance );
+    private void saveDetails(){
+
+        int updated_balance = Integer.valueOf(total.getText().toString()) - Integer.valueOf(paid.getText().toString());
+
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HHmmss").format(Calendar.getInstance().getTime());
+        String productTitle = tx_product.getText().toString();
+        Details details = new Details(productTitle.length() > 0 ?productTitle : null, typeObj.getInfo().getCode(),Integer.parseInt(unit_price.getText().toString()), Integer.parseInt(total.getText().toString()),
+                typeObj.getLatest().getQuantity(), productId, updated_balance,
+                Integer.parseInt(paid.getText().toString()) ,null, timeStamp, Integer.parseInt(mrp.getText().toString()),Integer.valueOf(selling_price.getText().toString()) );
+
+
+        RetrofitService retrofitService = RetrofitAdapter.create();
+        Call<Details> detailsCall = retrofitService.saveIncomming(details);
+
+        progressDialog.setMessage("Saving data...");
+        progressDialog.show();
+
+        detailsCall.enqueue(new Callback<Details>() {
+            @Override
+            public void onResponse(Call<Details> call, Response<Details> response) {
+                if (progressDialog.isShowing()) {
+                    progressDialog.dismiss();
+                }
+                loadDetails(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Details> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    private void loadDetails(Details body){
+        int final_total = body.getTotal();
+        int final_paid = body.getPaid();
+
+        int final_balance = final_total - final_paid;
+
+        balance.setText(String.valueOf(final_balance));
+        total.setText(String.valueOf(final_total));
+        paid.setText(String.valueOf(final_paid));
+
+        tx_final.setText("Total : " +final_total+ "    " + "Paid : " + final_paid + "    " + "Balance : " + final_balance );
     }
 
 }

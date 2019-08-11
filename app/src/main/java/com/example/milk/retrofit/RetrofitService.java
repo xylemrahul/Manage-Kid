@@ -7,6 +7,7 @@ import com.example.milk.model.Type;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -16,7 +17,7 @@ import retrofit2.http.Path;
 public interface RetrofitService {
 
     @GET("getInfo/{code}")
-    Call<Type> listRepos(@Path("code") int code);
+    Call<Type> listRepos(@Path("code") long code);
 
     @POST("saveDairyCustomers")
     Call<Type> saveCustomer(@Body Info info);

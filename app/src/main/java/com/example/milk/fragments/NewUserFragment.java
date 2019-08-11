@@ -32,14 +32,14 @@ public class NewUserFragment extends Fragment {
     AutoCompleteTextView pName, mobile, address, code;
     Button saveBtn;
     Spinner spType;
-    String barcode;
+    Long barcode;
     private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            barcode = getArguments().getString(AppUtilities.barcode_value);
+            barcode = getArguments().getLong(AppUtilities.barcode_value);
         }
     }
 
@@ -58,7 +58,7 @@ public class NewUserFragment extends Fragment {
         progressDialog = new ProgressDialog(getActivity());
 
         code = view.findViewById(R.id.et_code);
-        code.setText(barcode);
+        code.setText(""+barcode);
 
         spType = view.findViewById(R.id.sp_type);
         pName = view.findViewById(R.id.et_name);

@@ -17,7 +17,11 @@ import com.example.milk.model.Type;
 import com.example.milk.retrofit.RetrofitAdapter;
 import com.example.milk.retrofit.RetrofitService;
 import com.example.milk.utils.AppUtilities;
+import com.google.gson.Gson;
 
+import java.io.IOException;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         progressDialog = new ProgressDialog(this);
 
-        final String barcodeValue = getIntent().getStringExtra(AppUtilities.barcode_value);
+        final long barcodeValue = getIntent().getLongExtra(AppUtilities.barcode_value, 0);
 
         mContainer = findViewById(R.id.container);
 
@@ -50,39 +54,41 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Type> call, Response<Type> response) {
                 Log.d(TAG, "onResponse: " + response.body());
-                if(progressDialog.isShowing()){
+                if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
                 }
+
                 Bundle bundle = new Bundle();
-                bundle.putString(AppUtilities.barcode_value, barcodeValue);
+                bundle.putParcelable(AppUtilities.type_obj, response.body());
 
-                if(response.body() == null){
+                Fragment newFragment = null;
+                //                    if(response.body().getType() == "customer") {
+                newFragment = new SupplierFragment();
+                //                    }else{
+                //                        newFragment = new SupplierFragment();
+                //                    }
+                //                    bundle.putParcelable(AppUtilities.type_obj,response.body());
+                newFragment.setArguments(bundle);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.container, newFragment);
+                transaction.commit();
 
-                    Fragment newFragment = new NewUserFragment();
-                    newFragment.setArguments(bundle);
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.container, newFragment);
-                    transaction.commit();
-                }else {
-                    Fragment newFragment = null;
-//                    if(response.body().getType() == "customer") {
-                        newFragment = new CustomerFragment();
-//                    }else{
-//                        newFragment = new SupplierFragment();
-//                    }
-                    bundle.putParcelable(AppUtilities.type_obj,response.body());
-                    newFragment.setArguments(bundle);
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.container, newFragment);
-                    transaction.commit();
-                }
             }
 
             @Override
             public void onFailure(Call<Type> call, Throwable t) {
 
-                if(progressDialog.isShowing()){
+                if (progressDialog.isShowing()) {
                     progressDialog.dismiss();
+                }
+                if (t.getMessage().contains("End of input")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong(AppUtilities.barcode_value, barcodeValue);
+                    Fragment newFragment = new NewUserFragment();
+                    newFragment.setArguments(bundle);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.container, newFragment);
+                    transaction.commit();
                 }
             }
         });

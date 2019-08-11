@@ -9,7 +9,7 @@ public class Details {
     private String lastModifiedBy;
     private String lastModifiedDate;
     private String title;
-    private String code;
+    private long code;
     private int unitPrice;
     private int total;
     private int quantity;
@@ -21,7 +21,7 @@ public class Details {
     private int mrp;
     private int sellingPrice;
 
-    public Details(String title, String code, int unitPrice, int total, int quantity, int productId,
+    public Details(String title, long code, int unitPrice, int total, int quantity, int productId,
                    int balance, int paid, String type, String dateSale, int mrp, int sellingPrice) {
         this.title = title;
         this.code = code;
@@ -93,11 +93,11 @@ public class Details {
         this.title = title;
     }
 
-    public String getCode() {
+    public long getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(long code) {
         this.code = code;
     }
 

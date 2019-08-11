@@ -1,11 +1,10 @@
 package com.example.milk.model;
 
-import android.widget.EditText;
 
 public class Info {
 
     private Integer clientId;
-    private String code;
+    private long code;
     private String contact;
     private String name;
     private String adress;
@@ -15,7 +14,7 @@ public class Info {
     private String lastModifiedBy;
     private String lastModifiedDate;
 
-    public Info(String code, String name, String phn, String add) {
+    public Info(long code, String name, String phn, String add) {
         this.code = code;
         this.name = name;
         this.contact = phn;
@@ -31,11 +30,11 @@ public class Info {
         this.clientId = clientId;
     }
 
-    public String getCode() {
+    public long getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(long code) {
         this.code = code;
     }
 
