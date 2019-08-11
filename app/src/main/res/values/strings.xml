@@ -29,6 +29,11 @@
         <item>Supplier</item>
     </string-array>
 
+    //Error msgs
+    <string name="err_name">Name field is empty</string>
+    <string name="err_mobile">Enter valid mobile number</string>
+    <string name="err_address">Address field is empty</string>
+
     <string name="prev_unit_price">Previous Unit Price</string>
     <string name="unit_price">Unit Price</string>
     <string name="total">Total</string>
