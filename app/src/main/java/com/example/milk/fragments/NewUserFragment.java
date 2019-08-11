@@ -11,6 +11,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -111,6 +112,8 @@ public class NewUserFragment extends Fragment {
                             if (progressDialog.isShowing()) {
                                 progressDialog.dismiss();
                             }
+
+                            Toast.makeText(getActivity(), getResources().getString(R.string.error_msg_save), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

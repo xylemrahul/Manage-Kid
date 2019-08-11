@@ -19,6 +19,8 @@
     <string name="save">Save</string>
     <string name="cow">Cow`s milk</string>
     <string name="buffalo">Buffalo</string>
+    <string name="error_msg_save">Unable to save details, please try again later</string>
+    <string name="error_msg_fetch">Unable to fetch details , please try again later</string>
     <string name="gircow">Gir</string>
     <string name="code">Code</string>
 
