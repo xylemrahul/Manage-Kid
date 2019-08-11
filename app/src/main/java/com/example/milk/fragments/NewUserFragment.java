@@ -128,6 +128,10 @@ public class NewUserFragment extends Fragment {
                         if (progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }
+                        Toast.makeText(getActivity(), "Details Saved Successfully", Toast.LENGTH_SHORT).show();
+                        if(type.equals("customer")){
+
+                        }
                     }
 
                     @Override

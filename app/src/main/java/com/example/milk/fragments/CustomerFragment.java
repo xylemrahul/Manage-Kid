@@ -38,7 +38,7 @@ import retrofit2.Response;
 
 public class CustomerFragment extends Fragment {
 
-    AutoCompleteTextView code, prev_unit_price, unit_price, qty, total, paid, balance;
+    EditText code, prev_unit_price, unit_price, qty, total, paid, balance;
     TextView tx_final;
     Button saveBtn;
     Spinner spProduct;
@@ -143,19 +143,26 @@ public class CustomerFragment extends Fragment {
         mrp = productList.get(defaultIndex).getMrp();
 
         int final_total = Integer.parseInt(unit_price.getText().toString()) * Integer.parseInt(qty.getText().toString());
-        int final_balance = final_total - Integer.valueOf(paid.getText().toString());
+        int final_balance = 0;
+        if(paid.getText().toString().length() > 0){
+            final_balance = final_total - Integer.valueOf(paid.getText().toString());
+        }
 
         total.setText(String.valueOf(final_total));
         balance.setText(String.valueOf(final_balance));
     }
 
     private void saveDetails(){
-        int updated_balance = Integer.valueOf(total.getText().toString()) - Integer.valueOf(paid.getText().toString());
+        int updated_balance = 0, paid_amount = 0;
+        if(paid.getText().toString().length() > 0) {
+            paid_amount = Integer.valueOf(paid.getText().toString());
+            updated_balance = Integer.valueOf(total.getText().toString()) - paid_amount;
+        }
 
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HHmmss").format(Calendar.getInstance().getTime());
         Details details = new Details(null, typeObj.getInfo().getCode(),typeObj.getLatest().getUnitPrice(), Integer.parseInt(total.getText().toString()),
                 typeObj.getLatest().getQuantity(), typeObj.getLatest().getProductId(), updated_balance,
-                Integer.parseInt(paid.getText().toString()) ,null, timeStamp, mrp,Integer.valueOf(unit_price.getText().toString()) );
+                paid_amount ,null, timeStamp, mrp,Integer.valueOf(unit_price.getText().toString()) );
 
         RetrofitService retrofitService = RetrofitAdapter.create();
         Call<Details> detailsCall = retrofitService.saveIncomming(details);

@@ -8,48 +8,35 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <TextView
-            android:id="@+id/tx_code"
-            android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_code"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/code"
-            android:textSize="@dimen/textsize_22" />
+            android:layout_margin="@dimen/layout_margin">
 
-            <AutoCompleteTextView
-                android:enabled="false"
+            <EditText
                 android:id="@+id/et_code"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_below="@+id/tx_code"
-                android:layout_margin="@dimen/layout_margin"
-                android:background="@drawable/rounded_rect"
+                android:layout_height="match_parent"
                 android:clickable="false"
+                android:enabled="false"
                 android:hint="@string/code"
+                android:imeOptions="actionNext"
                 android:inputType="number"
-                android:padding="@dimen/textview_padding"
-                android:textColor="@color/white"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
                 android:textColorHint="@color/gray"
+                android:textCursorDrawable="@null"
                 android:textSize="@dimen/textsize_18" />
-
-        <TextView
-            android:id="@+id/tx_product"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/et_code"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="Product"
-            android:textSize="@dimen/textsize_22" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <RelativeLayout
             android:id="@+id/spinner_relative"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tx_product"
-            android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/spinner_background">
+            android:layout_below="@+id/input_code"
+            android:layout_margin="@dimen/layout_margin">
 
             <Spinner
                 android:id="@+id/sp_product"
@@ -59,167 +46,145 @@
                 android:autofillHints="" />
         </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tx_prev_unit_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/spinner_relative"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/prev_unit_price"
-            android:textSize="@dimen/textsize_22" />
-
-        <AutoCompleteTextView
-            android:id="@+id/et_prev_unit_price"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_prev_unit_price"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/tx_prev_unit_price"
-            android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/rounded_rect"
-            android:clickable="false"
-            android:enabled="false"
-            android:hint="@string/prev_unit_price"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray"
-            android:textSize="@dimen/textsize_18" />
-
-        <TextView
-            android:id="@+id/tx_unit_price"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/et_prev_unit_price"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/unit_price"
-            android:textSize="@dimen/textsize_22" />
+            android:layout_below="@id/spinner_relative"
+            android:layout_margin="@dimen/layout_margin">
 
-        <AutoCompleteTextView
-            android:id="@+id/et_unit_price"
+            <EditText
+                android:id="@+id/et_prev_unit_price"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="false"
+                android:enabled="false"
+                android:hint="@string/prev_unit_price"
+                android:imeOptions="actionNext"
+                android:padding="10dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gray"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/textsize_18" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_unit_price"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/tx_unit_price"
-            android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/rounded_rect"
-            android:hint="@string/unit_price"
-            android:inputType="number"
-            android:maxLength="10"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray"
-            android:textSize="@dimen/textsize_18" />
-
-        <TextView
-            android:id="@+id/tx_qty"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/et_unit_price"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/qty"
-            android:textSize="@dimen/textsize_22" />
+            android:layout_below="@id/input_prev_unit_price"
+            android:layout_margin="@dimen/layout_margin">
 
-        <AutoCompleteTextView
-            android:id="@+id/et_qty"
+            <EditText
+                android:id="@+id/et_unit_price"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/unit_price"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:maxLength="10"
+                android:padding="10dp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gray"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/textsize_18" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_qty"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/tx_qty"
-            android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/rounded_rect"
-            android:hint="@string/qty"
-            android:inputType="number"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray"
-            android:textSize="@dimen/textsize_18" />
-
-        <TextView
-            android:id="@+id/tx_total"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/et_qty"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/total"
-            android:textSize="@dimen/textsize_22" />
+            android:layout_below="@id/input_unit_price"
+            android:layout_margin="@dimen/layout_margin">
 
-        <AutoCompleteTextView
-            android:id="@+id/et_total"
+            <EditText
+                android:id="@+id/et_qty"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Quantity"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gray"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/textsize_18" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_total"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/tx_total"
-            android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/rounded_rect"
-            android:hint="@string/total"
-            android:inputType="number"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:text="0"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray"
-            android:textSize="@dimen/textsize_18" />
-
-        <TextView
-            android:id="@+id/tx_paid"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/et_total"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/paid"
-            android:textSize="@dimen/textsize_22" />
+            android:layout_below="@id/input_qty"
+            android:layout_margin="@dimen/layout_margin">
 
-        <AutoCompleteTextView
-            android:id="@+id/et_paid"
+            <EditText
+                android:id="@+id/et_total"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Total"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gray"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/textsize_18" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_paid"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/tx_paid"
-            android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/rounded_rect"
-            android:hint="@string/paid"
-            android:inputType="number"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:text="0"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray"
-            android:textSize="@dimen/textsize_18" />
-
-        <TextView
-            android:id="@+id/tx_balance"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/et_paid"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:text="@string/balance"
-            android:textSize="@dimen/textsize_22" />
+            android:layout_below="@id/input_total"
+            android:layout_margin="@dimen/layout_margin">
 
-        <AutoCompleteTextView
-            android:id="@+id/et_balance"
+            <EditText
+                android:id="@+id/et_paid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Paid"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gray"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/textsize_18" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_balance"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@+id/tx_balance"
-            android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/rounded_rect"
-            android:hint="@string/balance"
-            android:inputType="number"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:text="0"
-            android:textColor="@color/white"
-            android:textColorHint="@color/gray"
-            android:textSize="@dimen/textsize_18" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/input_paid"
+            android:layout_margin="@dimen/layout_margin">
+
+            <EditText
+                android:id="@+id/et_balance"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Balance"
+                android:imeOptions="actionNext"
+                android:inputType="number"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gray"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/textsize_18" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <Button
             android:id="@+id/btnSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/et_balance"
+            android:layout_below="@+id/input_balance"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/layout_margin"
             android:background="@drawable/btnsignin_gradient"
