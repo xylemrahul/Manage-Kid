@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ import com.example.milk.model.Type;
 import com.example.milk.retrofit.RetrofitAdapter;
 import com.example.milk.retrofit.RetrofitService;
 import com.example.milk.utils.AppUtilities;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,7 +41,8 @@ import retrofit2.Response;
 //tx_product id sent is 0 .
 public class SupplierFragment extends Fragment {
 
-    AutoCompleteTextView code, mrp, unit_price, selling_price,qty, total, paid, balance, tx_product;
+    EditText code, mrp, unit_price, selling_price,qty, total, paid, balance, tx_product;
+    TextInputLayout inputProduct;
     TextView tx_final;
     Button saveBtn, addBtn;
     Spinner spProduct;
@@ -79,6 +82,7 @@ public class SupplierFragment extends Fragment {
         paid = view.findViewById(R.id.et_paid);
         balance = view.findViewById(R.id.et_balance);
         tx_product = view.findViewById(R.id.et_product);
+        inputProduct = view.findViewById(R.id.input_product);
         spProduct = view.findViewById(R.id.sp_product);
         saveBtn = view.findViewById(R.id.btnSave);
         addBtn = view.findViewById(R.id.btn_add);
@@ -129,7 +133,7 @@ public class SupplierFragment extends Fragment {
             public void onClick(View view) {
                 addBtn.setVisibility(View.INVISIBLE);
                 spProduct.setVisibility(View.GONE);
-                tx_product.setVisibility(View.VISIBLE);
+                inputProduct.setVisibility(View.VISIBLE);
                 productId = 0;
             }
         });
@@ -186,21 +190,25 @@ public class SupplierFragment extends Fragment {
         selling_price.setText(String.valueOf(productList.get(i-1).getSellingPrice()));
 
         int final_total = Integer.parseInt(unit_price.getText().toString()) * Integer.parseInt(qty.getText().toString());
-        int final_balance = final_total - Integer.valueOf(paid.getText().toString());
-
+        int final_balance = 0;
+        if(paid.getText().toString().length() > 0){
+            final_balance = final_total - Integer.valueOf(paid.getText().toString());
+        }
         total.setText(String.valueOf(final_total));
         balance.setText(String.valueOf(final_balance));
     }
 
     private void saveDetails(){
-
-        int updated_balance = Integer.valueOf(total.getText().toString()) - Integer.valueOf(paid.getText().toString());
-
+        int updated_balance = 0, paid_amount =0;
+        if(paid.getText().toString().length() > 0) {
+            paid_amount = Integer.valueOf(paid.getText().toString());
+            updated_balance = Integer.valueOf(total.getText().toString()) - paid_amount;
+        }
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HHmmss").format(Calendar.getInstance().getTime());
         String productTitle = tx_product.getText().toString();
         Details details = new Details(productTitle.length() > 0 ?productTitle : null, typeObj.getInfo().getCode(),Integer.parseInt(unit_price.getText().toString()), Integer.parseInt(total.getText().toString()),
                 typeObj.getLatest().getQuantity(), productId, updated_balance,
-                Integer.parseInt(paid.getText().toString()) ,null, timeStamp, Integer.parseInt(mrp.getText().toString()),Integer.valueOf(selling_price.getText().toString()) );
+                paid_amount ,null, timeStamp, Integer.parseInt(mrp.getText().toString()),Integer.valueOf(selling_price.getText().toString()) );
 
 
         RetrofitService retrofitService = RetrofitAdapter.create();

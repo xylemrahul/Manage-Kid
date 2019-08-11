@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         mContainer = findViewById(R.id.container);
 
         RetrofitService retrofitService = RetrofitAdapter.create();
-        Call<Type> infoCall = retrofitService.listRepos(barcodeValue);
+        Call<Type> infoCall = retrofitService.listRepos(8982922);
 
         progressDialog.setMessage("Fetching details...");
         progressDialog.show();
@@ -63,12 +63,12 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putParcelable(AppUtilities.type_obj, response.body());
 
                 Fragment newFragment = null;
-                //                    if(response.body().getType() == "customer") {
-                newFragment = new SupplierFragment();
-                //                    }else{
-                //                        newFragment = new SupplierFragment();
-                //                    }
-                //                    bundle.putParcelable(AppUtilities.type_obj,response.body());
+                if (response.body().getType() == "customer") {
+                    newFragment = new SupplierFragment();
+                } else {
+                    newFragment = new SupplierFragment();
+                }
+                bundle.putParcelable(AppUtilities.type_obj, response.body());
                 newFragment.setArguments(bundle);
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.container, newFragment);
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.container, newFragment);
                     transaction.commit();
-                }else{
+                } else {
                     Toast.makeText(MainActivity.this, getResources().getString(R.string.error_msg_fetch), Toast.LENGTH_SHORT).show();
                 }
             }
