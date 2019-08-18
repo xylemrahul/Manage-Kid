@@ -165,6 +165,7 @@ public class NewUserFragment extends BaseFragment {
                         .insert(info);
             }
         }).start();
+        Toast.makeText(getActivity(), getResources().getString(R.string.offline_save), Toast.LENGTH_SHORT).show();
     }
 
     private boolean validateName() {

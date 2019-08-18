@@ -8,6 +8,8 @@ import androidx.room.PrimaryKey;
 
 @Entity
 public class Details {
+    @PrimaryKey(autoGenerate = true)
+    private int keyId;
     @Ignore
     private int clientId;
     @Ignore
@@ -30,8 +32,7 @@ public class Details {
     private int total;
     @ColumnInfo
     private int quantity;
-    @NonNull
-    @PrimaryKey
+    @ColumnInfo
     private int productId;
     @ColumnInfo
     private int balance;
@@ -64,6 +65,14 @@ public class Details {
         this.dateSale = dateSale;
         this.mrp = mrp;
         this.sellingPrice = sellingPrice;
+    }
+
+    public int getKeyId() {
+        return keyId;
+    }
+
+    public void setKeyId(int keyId) {
+        this.keyId = keyId;
     }
 
     public int getClientId() {

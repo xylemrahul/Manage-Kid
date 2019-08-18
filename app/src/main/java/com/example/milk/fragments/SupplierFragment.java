@@ -184,6 +184,7 @@ public class SupplierFragment extends BaseFragment {
         protected void onPostExecute(List<Product> products) {
             super.onPostExecute(products);
             showDefaultProduct(productList);
+            Toast.makeText(getActivity(), getResources().getString(R.string.offline_save), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -211,7 +212,7 @@ public class SupplierFragment extends BaseFragment {
                     tx_final.setVisibility(View.VISIBLE);
                     /*TODO*/
 //                    productId = typeObj.getLatest().getProductId();
-                    productId = 1;
+                    productId = 0;
                     loadItemsAtPosition(i, productList);
                 }else{
                     productId = 0;
@@ -258,7 +259,7 @@ public class SupplierFragment extends BaseFragment {
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HHmmss").format(Calendar.getInstance().getTime());
         String productTitle = tx_product.getText().toString();
         Details details = new Details(productTitle.length() > 0 ?productTitle : null, typeObj.getInfo().getCode(),Integer.parseInt(unit_price.getText().toString()), Integer.parseInt(total.getText().toString()),
-                Integer.parseInt(qty.getText().toString()), productId, updated_balance,
+                Integer.parseInt(qty.getText().toString()), 0, updated_balance,
                 paid_amount ,null, timeStamp, Integer.parseInt(mrp.getText().toString()),Integer.valueOf(selling_price.getText().toString()) );
 
         if(isConnected) {
@@ -292,7 +293,6 @@ public class SupplierFragment extends BaseFragment {
     }
 
     private class insertDetailsAsync extends AsyncTask<Void, Void, Void> {
-        List<Product> productList = new ArrayList<>();
         DatabaseClient instance = null;
         Details details = null;
 

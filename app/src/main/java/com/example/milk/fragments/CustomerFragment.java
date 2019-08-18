@@ -155,6 +155,7 @@ public class CustomerFragment extends BaseFragment {
         protected void onPostExecute(List<Product> products) {
             super.onPostExecute(products);
             showDefaultProduct(productList);
+            Toast.makeText(getActivity(), getResources().getString(R.string.offline_save), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -12,6 +12,8 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Product implements Parcelable {
 
+    @PrimaryKey(autoGenerate = true)
+    private int keyId;
     @ColumnInfo
     private int clientId;
     @ColumnInfo
@@ -26,8 +28,7 @@ public class Product implements Parcelable {
     private String code;
     @ColumnInfo
     private String title;
-    @PrimaryKey
-    @NonNull
+    @ColumnInfo
     private int id;
     @ColumnInfo
     private String createdBy;
@@ -67,6 +68,14 @@ public class Product implements Parcelable {
             return new Product[size];
         }
     };
+
+    public int getKeyId() {
+        return keyId;
+    }
+
+    public void setKeyId(int keyId) {
+        this.keyId = keyId;
+    }
 
     public Integer getClientId() {
         return clientId;
