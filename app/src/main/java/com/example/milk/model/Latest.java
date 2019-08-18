@@ -1,9 +1,7 @@
 package com.example.milk.model;
 
 import androidx.room.ColumnInfo;
-import androidx.room.Entity;
 
-@Entity
 public class Latest {
 
     @ColumnInfo
@@ -30,6 +28,10 @@ public class Latest {
     private String lastModifiedBy;
     @ColumnInfo
     private String lastModifiedDate;
+
+    public Latest(){
+
+    }
 
     public Integer getClientId() {
         return clientId;

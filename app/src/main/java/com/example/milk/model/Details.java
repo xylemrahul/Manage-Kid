@@ -46,6 +46,10 @@ public class Details {
     @ColumnInfo
     private int sellingPrice;
 
+    public Details(){
+
+    }
+    @Ignore
     public Details(String title, long code, int unitPrice, int total, int quantity, int productId,
                    int balance, int paid, String type, String dateSale, int mrp, int sellingPrice) {
         this.title = title;

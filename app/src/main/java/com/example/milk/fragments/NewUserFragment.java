@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.milk.R;
+import com.example.milk.database.DatabaseClient;
 import com.example.milk.model.Info;
 import com.example.milk.model.Type;
 import com.example.milk.retrofit.RetrofitAdapter;
@@ -111,11 +113,19 @@ public class NewUserFragment extends Fragment {
                 if (!validateAddress()) {
                     return;
                 }
-                Info info = new Info(barcode, name, phn, add);
+               final Info info = new Info(barcode, name, phn, add);
 
                 RetrofitService retrofitService = RetrofitAdapter.create();
                 Call<Type> register = null;
-                if (type.equals("customer")) {
+                new Thread(new Runnable() {
+                   @Override
+                   public void run() {
+                       DatabaseClient.getInstance(getActivity().getApplicationContext()).getAppDatabase()
+                               .infoDAO()
+                               .insert(info);
+                   }
+               }).start();
+                if (type.equalsIgnoreCase("customer")) {
                     register = retrofitService.saveCustomer(info);
                 } else {
                     register = retrofitService.saveSupplier(info);
@@ -128,10 +138,22 @@ public class NewUserFragment extends Fragment {
                         if (progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }
-                        Toast.makeText(getActivity(), "Details Saved Successfully", Toast.LENGTH_SHORT).show();
-                        if(type.equals("customer")){
 
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Info info = DatabaseClient.getInstance(getActivity().getApplicationContext()).getAppDatabase()
+                                        .infoDAO()
+                                        .fetch();
+
+                                Log.d("INfo Dao", "run: " + info.getAdress() +"" +info.getName() + ""+info.getContact());
+                            }
+                        }).start();
+
+                        if(type.equals("customer")){
                         }
+                        Toast.makeText(getActivity(), "Details Saved Successfully", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override

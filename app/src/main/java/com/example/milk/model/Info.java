@@ -1,7 +1,9 @@
 package com.example.milk.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 @Entity
 public class Info {
@@ -16,7 +18,8 @@ public class Info {
     private String name;
     @ColumnInfo
     private String adress;
-    @ColumnInfo
+    @PrimaryKey
+    @NonNull
     private Integer id;
     @ColumnInfo
     private String createdBy;
@@ -26,6 +29,10 @@ public class Info {
     private String lastModifiedBy;
     @ColumnInfo
     private String lastModifiedDate;
+
+    public Info(){
+
+    }
 
     public Info(long code, String name, String phn, String add) {
         this.code = code;

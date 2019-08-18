@@ -3,16 +3,27 @@ package com.example.milk.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 @Entity
 public class Type implements Parcelable {
 
     @ColumnInfo
     private String type;
+    @PrimaryKey(autoGenerate = true)
+    @NonNull
+    private int id;
+    @Ignore
     private Info info;
+    @Ignore
     private Latest latest;
+
+    public Type() {
+    }
 
     protected Type(Parcel in) {
         type = in.readString();
@@ -29,6 +40,14 @@ public class Type implements Parcelable {
             return new Type[size];
         }
     };
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getType() {
         return type;

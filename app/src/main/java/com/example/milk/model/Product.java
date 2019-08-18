@@ -53,6 +53,9 @@ public class Product implements Parcelable {
         lastModifiedDate = in.readString();
     }
 
+    public Product() {
+    }
+
     public static final Creator<Product> CREATOR = new Creator<Product>() {
         @Override
         public Product createFromParcel(Parcel in) {
