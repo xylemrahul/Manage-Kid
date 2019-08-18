@@ -3,8 +3,13 @@ package com.example.milk.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+
+@Entity
 public class Type implements Parcelable {
 
+    @ColumnInfo
     private String type;
     private Info info;
     private Latest latest;

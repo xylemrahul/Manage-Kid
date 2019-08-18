@@ -1,24 +1,49 @@
 package com.example.milk.model;
 
-public class Details {
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
+@Entity
+public class Details {
+    @Ignore
     private int clientId;
+    @Ignore
     private int id;
+    @ColumnInfo
     private String createdBy;
+    @ColumnInfo
     private String creationDate;
+    @ColumnInfo
     private String lastModifiedBy;
+    @ColumnInfo
     private String lastModifiedDate;
+    @ColumnInfo
     private String title;
+    @ColumnInfo
     private long code;
+    @ColumnInfo
     private int unitPrice;
+    @ColumnInfo
     private int total;
+    @ColumnInfo
     private int quantity;
+    @NonNull
+    @PrimaryKey
     private int productId;
+    @ColumnInfo
     private int balance;
+    @ColumnInfo
     private int paid;
+    @ColumnInfo
     private String type;
+    @ColumnInfo
     private String dateSale;
+    @ColumnInfo
     private int mrp;
+    @ColumnInfo
     private int sellingPrice;
 
     public Details(String title, long code, int unitPrice, int total, int quantity, int productId,

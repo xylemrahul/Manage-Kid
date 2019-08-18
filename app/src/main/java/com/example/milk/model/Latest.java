@@ -1,18 +1,34 @@
 package com.example.milk.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+
+@Entity
 public class Latest {
 
+    @ColumnInfo
     private Integer clientId;
+    @ColumnInfo
     private Integer unitPrice;
+    @ColumnInfo
     private Integer total;
+    @ColumnInfo
     private Integer quantity;
+    @ColumnInfo
     private Integer productId;
+    @ColumnInfo
     private String dateSale;
+    @ColumnInfo
     private String custCode;
+    @ColumnInfo
     private Integer id;
+    @ColumnInfo
     private String createdBy;
+    @ColumnInfo
     private String creationDate;
+    @ColumnInfo
     private String lastModifiedBy;
+    @ColumnInfo
     private String lastModifiedDate;
 
     public Integer getClientId() {

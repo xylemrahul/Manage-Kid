@@ -1,17 +1,30 @@
 package com.example.milk.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
 
+@Entity
 public class Info {
 
+    @ColumnInfo
     private Integer clientId;
-    private long code;
+    @ColumnInfo
     private String contact;
+    @ColumnInfo
+    private long code;
+    @ColumnInfo
     private String name;
+    @ColumnInfo
     private String adress;
+    @ColumnInfo
     private Integer id;
+    @ColumnInfo
     private String createdBy;
+    @ColumnInfo
     private String creationDate;
+    @ColumnInfo
     private String lastModifiedBy;
+    @ColumnInfo
     private String lastModifiedDate;
 
     public Info(long code, String name, String phn, String add) {

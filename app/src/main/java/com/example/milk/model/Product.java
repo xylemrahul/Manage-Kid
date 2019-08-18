@@ -4,19 +4,38 @@ package com.example.milk.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Product implements Parcelable {
 
+    @ColumnInfo
     private int clientId;
+    @ColumnInfo
     private int mrp;
+    @ColumnInfo
     private int sellingPrice;
+    @ColumnInfo
     private int unitPrice;
+    @ColumnInfo
     private int quantity;
+    @ColumnInfo
     private String code;
+    @ColumnInfo
     private String title;
+    @PrimaryKey
+    @NonNull
     private int id;
+    @ColumnInfo
     private String createdBy;
+    @ColumnInfo
     private String creationDate;
+    @ColumnInfo
     private String lastModifiedBy;
+    @ColumnInfo
     private String lastModifiedDate;
 
     protected Product(Parcel in) {
