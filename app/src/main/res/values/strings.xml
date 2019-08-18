@@ -21,6 +21,7 @@
     <string name="buffalo">Buffalo</string>
     <string name="error_msg_save">Unable to save details, please try again later</string>
     <string name="error_msg_fetch">Unable to fetch details , please try again later</string>
+    <string name="offline_save">Saved to offline db..</string>
     <string name="gircow">Gir</string>
     <string name="code">Code</string>
 
@@ -41,4 +42,7 @@
     <string name="balance">Balance</string>
     <string name="mrp">MRP</string>
     <string name="selling_price">Selling Price</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

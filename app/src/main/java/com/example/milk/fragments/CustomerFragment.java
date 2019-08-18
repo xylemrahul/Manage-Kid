@@ -1,6 +1,8 @@
 package com.example.milk.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.milk.R;
+import com.example.milk.database.DatabaseClient;
 import com.example.milk.model.Details;
 import com.example.milk.model.Product;
 import com.example.milk.model.Type;
@@ -36,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CustomerFragment extends Fragment {
+public class CustomerFragment extends BaseFragment {
 
     EditText code, prev_unit_price, unit_price, qty, total, paid, balance;
     TextView tx_final;
@@ -83,31 +86,36 @@ public class CustomerFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        RetrofitService retrofitService = RetrofitAdapter.create();
-        Call<List<Product>> fetchProducts = retrofitService.getProducts();
-        progressDialog = new ProgressDialog(getActivity());
-        progressDialog.setMessage("Please wait...");
-        progressDialog.show();
+        if(isConnected) {
+            RetrofitService retrofitService = RetrofitAdapter.create();
+            Call<List<Product>> fetchProducts = retrofitService.getProducts();
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Please wait...");
+            progressDialog.show();
 
-        fetchProducts.enqueue(new Callback<List<Product>>() {
-            @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-                List<Product> productList = response.body();
-                showDefaultProduct(productList);
-            }
-
-            @Override
-            public void onFailure(Call<List<Product>> call, Throwable t) {
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
+            fetchProducts.enqueue(new Callback<List<Product>>() {
+                @Override
+                public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    List<Product> productList = response.body();
+                    insert(productList);
+                    showDefaultProduct(productList);
                 }
 
-                Toast.makeText(getActivity(), getResources().getString(R.string.error_msg_fetch), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<List<Product>> call, Throwable t) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_msg_fetch), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+           fetchAllProducts();
+        }
 
         code.setText(String.valueOf(typeObj.getInfo().getCode()));
         prev_unit_price.setText(String.valueOf(typeObj.getLatest().getUnitPrice()));
@@ -119,6 +127,47 @@ public class CustomerFragment extends Fragment {
                 saveDetails();
             }
         });
+    }
+
+    private void fetchAllProducts() {
+
+        new fetchProductsAsync(getActivity().getApplicationContext()).execute();
+    }
+
+    private class fetchProductsAsync extends AsyncTask<Void, Void, List<Product>> {
+        List<Product> productList = new ArrayList<>();
+        DatabaseClient instance = null;
+
+        public fetchProductsAsync(Context applicationContext) {
+            instance = DatabaseClient.getInstance(applicationContext);
+        }
+
+        @Override
+        protected List<Product> doInBackground(Void... voids) {
+            productList = instance.getAppDatabase()
+                    .productDAO()
+                    .fetchProducts();
+
+            return productList;
+        }
+
+        @Override
+        protected void onPostExecute(List<Product> products) {
+            super.onPostExecute(products);
+            showDefaultProduct(productList);
+        }
+    }
+
+    private void insert(final List<Product> productList) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DatabaseClient.getInstance(getActivity().getApplicationContext()).getAppDatabase()
+                        .productDAO()
+                        .insertAll(productList);
+            }
+        }).start();
     }
 
     private void showDefaultProduct(List<Product> productList) {
@@ -164,30 +213,60 @@ public class CustomerFragment extends Fragment {
                 typeObj.getLatest().getQuantity(), typeObj.getLatest().getProductId(), updated_balance,
                 paid_amount ,null, timeStamp, mrp,Integer.valueOf(unit_price.getText().toString()) );
 
-        RetrofitService retrofitService = RetrofitAdapter.create();
-        Call<Details> detailsCall = retrofitService.saveIncomming(details);
+        if(isConnected) {
+            RetrofitService retrofitService = RetrofitAdapter.create();
+            Call<Details> detailsCall = retrofitService.saveIncomming(details);
 
-        progressDialog.setMessage("Saving data...");
-        progressDialog.show();
+            progressDialog.setMessage("Saving data...");
+            progressDialog.show();
 
-        detailsCall.enqueue(new Callback<Details>() {
-            @Override
-            public void onResponse(Call<Details> call, Response<Details> response) {
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-                loadDetails(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<Details> call, Throwable t) {
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
+            detailsCall.enqueue(new Callback<Details>() {
+                @Override
+                public void onResponse(Call<Details> call, Response<Details> response) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+                    loadDetails(response.body());
                 }
 
-                Toast.makeText(getActivity(), getResources().getString(R.string.error_msg_save), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<Details> call, Throwable t) {
+                    if (progressDialog.isShowing()) {
+                        progressDialog.dismiss();
+                    }
+
+                    Toast.makeText(getActivity(), getResources().getString(R.string.error_msg_save), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }else{
+            new insertDetailsAsync(getActivity().getApplicationContext(), details).execute();
+        }
+    }
+
+    private class insertDetailsAsync extends AsyncTask<Void, Void, Void> {
+        List<Product> productList = new ArrayList<>();
+        DatabaseClient instance = null;
+        Details details;
+
+        public insertDetailsAsync(Context applicationContext, Details details) {
+            this.details = details;
+            instance = DatabaseClient.getInstance(applicationContext);
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            instance.getAppDatabase()
+                    .detailsDAO()
+                    .insert(details);
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(getActivity(), getResources().getString(R.string.offline_save), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void loadDetails(Details body){

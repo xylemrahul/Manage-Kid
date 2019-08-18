@@ -1,4 +1,4 @@
-package com.example.milk;
+package com.example.milk.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +8,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.milk.R;
 
 
-public class ForgotPasswordActivity extends AppCompatActivity {
+public class ForgotPasswordActivity extends BaseActivity {
 
     private ImageView ivPWreset;
     private TextView tvInfo, tvSignin;

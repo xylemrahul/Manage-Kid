@@ -1,5 +1,5 @@
 
-package com.example.milk;
+package com.example.milk.activity;
 
 
 import android.app.ProgressDialog;
@@ -11,10 +11,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.milk.R;
 
 
-public class RegistrationActivity extends AppCompatActivity {
+public class RegistrationActivity extends BaseActivity {
 
     private ImageView logo, joinus;
     private AutoCompleteTextView username, email, password;

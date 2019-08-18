@@ -1,4 +1,4 @@
-package com.example.milk;
+package com.example.milk.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,14 +6,14 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.milk.R;
 import com.example.milk.utils.AppUtilities;
 import com.google.android.gms.vision.barcode.Barcode;
 import java.util.List;
 import info.androidhive.barcode.BarcodeReader;
 
-public class BarCodeActivity extends AppCompatActivity implements BarcodeReader.BarcodeReaderListener {
+public class BarCodeActivity extends BaseActivity implements BarcodeReader.BarcodeReaderListener {
 
     private BarcodeReader barcodeReader;
     private boolean flag;

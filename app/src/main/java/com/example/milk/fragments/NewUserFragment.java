@@ -34,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NewUserFragment extends Fragment {
+public class NewUserFragment extends BaseFragment {
 
     EditText code,pName, mobile, address;
     private TextInputLayout nameLayout, mobileLayout, addressLayout;
@@ -115,60 +115,57 @@ public class NewUserFragment extends Fragment {
                 }
                final Info info = new Info(barcode, name, phn, add);
 
-                RetrofitService retrofitService = RetrofitAdapter.create();
-                Call<Type> register = null;
-                new Thread(new Runnable() {
-                   @Override
-                   public void run() {
-                       DatabaseClient.getInstance(getActivity().getApplicationContext()).getAppDatabase()
-                               .infoDAO()
-                               .insert(info);
-                   }
-               }).start();
-                if (type.equalsIgnoreCase("customer")) {
-                    register = retrofitService.saveCustomer(info);
-                } else {
-                    register = retrofitService.saveSupplier(info);
-                }
-                progressDialog.setMessage("Saving details...");
-                progressDialog.show();
-                register.enqueue(new Callback<Type>() {
-                    @Override
-                    public void onResponse(Call<Type> call, Response<Type> response) {
-                        if (progressDialog.isShowing()) {
-                            progressDialog.dismiss();
-                        }
+                if(isConnected) {
 
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Info info = DatabaseClient.getInstance(getActivity().getApplicationContext()).getAppDatabase()
-                                        .infoDAO()
-                                        .fetch();
+                    RetrofitService retrofitService = RetrofitAdapter.create();
+                    Call<Type> register = null;
 
-                                Log.d("INfo Dao", "run: " + info.getAdress() +"" +info.getName() + ""+info.getContact());
+                    if (type.equalsIgnoreCase("customer")) {
+                        register = retrofitService.saveCustomer(info);
+                    } else {
+                        register = retrofitService.saveSupplier(info);
+                    }
+                    progressDialog.setMessage("Saving details...");
+                    progressDialog.show();
+                    register.enqueue(new Callback<Type>() {
+                        @Override
+                        public void onResponse(Call<Type> call, Response<Type> response) {
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss();
                             }
-                        }).start();
 
-                        if(type.equals("customer")){
-                        }
-                        Toast.makeText(getActivity(), "Details Saved Successfully", Toast.LENGTH_SHORT).show();
+                            if (type.equals("customer")) {
+                            }
+                            Toast.makeText(getActivity(), "Details Saved Successfully", Toast.LENGTH_SHORT).show();
 
-                    }
-
-                    @Override
-                    public void onFailure(Call<Type> call, Throwable t) {
-                        if (progressDialog.isShowing()) {
-                            progressDialog.dismiss();
                         }
 
-                        Toast.makeText(getActivity(), getResources().getString(R.string.error_msg_save), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<Type> call, Throwable t) {
+                            if (progressDialog.isShowing()) {
+                                progressDialog.dismiss();
+                            }
+
+                            Toast.makeText(getActivity(), getResources().getString(R.string.error_msg_save), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else{
+                   insert(info);
+                }
             }
         });
     }
 
+    private void insert(final Info info){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DatabaseClient.getInstance(getActivity().getApplicationContext()).getAppDatabase()
+                        .infoDAO()
+                        .insert(info);
+            }
+        }).start();
+    }
 
     private boolean validateName() {
         if (pName.getText().toString().trim().isEmpty()) {

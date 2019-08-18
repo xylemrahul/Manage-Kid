@@ -5,16 +5,16 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
-public class AppStatus {
+public class ConnectivityStatus {
 
 
-    private static AppStatus instance = new AppStatus();
+    private static ConnectivityStatus instance = new ConnectivityStatus();
     static Context context;
     ConnectivityManager connectivityManager;
     NetworkInfo wifiInfo, mobileInfo;
     boolean connected = false;
 
-    public static AppStatus getInstance(Context ctx) {
+    public static ConnectivityStatus getInstance(Context ctx) {
         context = ctx.getApplicationContext();
         return instance;
     }
@@ -26,7 +26,7 @@ public class AppStatus {
 
             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
             connected = networkInfo != null && networkInfo.isAvailable() &&
-                    networkInfo.isConnected();
+                    networkInfo.isConnectedOrConnecting();
             return connected;
 
 
