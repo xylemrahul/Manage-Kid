@@ -36,7 +36,6 @@ public class BarCodeActivity extends BaseActivity implements BarcodeReader.Barco
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(AppUtilities.barcode_value, Long.valueOf(barcode.displayValue));
             startActivity(intent);
-            finish();
         }
     }
 
@@ -58,5 +57,6 @@ public class BarCodeActivity extends BaseActivity implements BarcodeReader.Barco
     @Override
     public void onCameraPermissionDenied() {
         Toast.makeText(getApplicationContext(), "Camera permission denied!", Toast.LENGTH_LONG).show();
+        finish();
     }
 }

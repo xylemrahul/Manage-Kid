@@ -1,6 +1,7 @@
 package com.example.milk.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.text.Editable;
@@ -22,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.milk.R;
+import com.example.milk.activity.BarCodeActivity;
 import com.example.milk.database.DatabaseClient;
 import com.example.milk.model.Info;
 import com.example.milk.model.Type;
@@ -137,7 +139,10 @@ public class NewUserFragment extends BaseFragment {
                             if (type.equals("customer")) {
                             }
                             Toast.makeText(getActivity(), "Details Saved Successfully", Toast.LENGTH_SHORT).show();
-
+                            Intent intent = new Intent(getActivity(), BarCodeActivity.class);
+                            intent.setFlags(intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            startActivity(intent);
+                            getActivity().finish();
                         }
 
                         @Override

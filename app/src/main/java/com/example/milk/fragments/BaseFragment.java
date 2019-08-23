@@ -10,6 +10,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,7 @@ import com.example.milk.utils.ConnectivityStatus;
  */
 public class BaseFragment extends Fragment {
 
-    protected static boolean isConnected;
+    protected static boolean isConnected = true;
 
     public BaseFragment() {
         // Required empty public constructor

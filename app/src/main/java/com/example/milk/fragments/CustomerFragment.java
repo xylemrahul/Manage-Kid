@@ -2,6 +2,7 @@ package com.example.milk.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -22,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.milk.R;
+import com.example.milk.activity.BarCodeActivity;
 import com.example.milk.database.DatabaseClient;
 import com.example.milk.model.Details;
 import com.example.milk.model.Product;
@@ -228,6 +230,7 @@ public class CustomerFragment extends BaseFragment {
                         progressDialog.dismiss();
                     }
                     loadDetails(response.body());
+                    Toast.makeText(getActivity(), getResources().getString(R.string.success_save), Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -281,5 +284,10 @@ public class CustomerFragment extends BaseFragment {
         paid.setText(String.valueOf(final_paid));
 
         tx_final.setText("Total : " +final_total+ "    " + "Paid : " + final_paid + "    " + "Balance : " + final_balance );
+
+        Intent intent = new Intent(getActivity(), BarCodeActivity.class);
+        intent.setFlags(intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+        getActivity().finish();
     }
 }

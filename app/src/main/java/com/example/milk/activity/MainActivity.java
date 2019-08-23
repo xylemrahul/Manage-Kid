@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.milk.R;
+import com.example.milk.fragments.CustomerFragment;
 import com.example.milk.fragments.NewUserFragment;
 import com.example.milk.fragments.SupplierFragment;
 import com.example.milk.model.Type;
@@ -60,7 +61,7 @@ public class MainActivity extends BaseActivity {
 
                     Fragment newFragment = null;
                     if (response.body().getType() == "customer") {
-                        newFragment = new SupplierFragment();
+                        newFragment = new CustomerFragment();
                     } else {
                         newFragment = new SupplierFragment();
                     }
