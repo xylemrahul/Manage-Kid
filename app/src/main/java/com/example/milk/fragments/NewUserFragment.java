@@ -94,8 +94,6 @@ public class NewUserFragment extends BaseFragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spType.setAdapter(adapter);
 
-        final String type = spType.getSelectedItem().toString();
-
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,7 +113,8 @@ public class NewUserFragment extends BaseFragment {
                 if (!validateAddress()) {
                     return;
                 }
-               final Info info = new Info(barcode, name, phn, add);
+                final String type = spType.getSelectedItem().toString();
+                final Info info = new Info(barcode, name, phn, add);
 
                 if(isConnected) {
 

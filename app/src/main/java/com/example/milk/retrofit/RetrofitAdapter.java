@@ -1,5 +1,7 @@
 package com.example.milk.retrofit;
 
+import com.google.gson.GsonBuilder;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -19,7 +21,7 @@ public class RetrofitAdapter {
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
                 .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create( new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()))
                 .build();
         return retrofit.create(RetrofitService.class);
     }

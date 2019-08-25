@@ -9,17 +9,22 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class Type implements Parcelable {
 
     @ColumnInfo
+    @Expose
     private String type;
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int id;
     @Ignore
+    @Expose
     private Info info;
     @Ignore
+    @Expose
     private Latest latest;
 
     public Type() {

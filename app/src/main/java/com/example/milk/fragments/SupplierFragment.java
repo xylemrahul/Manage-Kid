@@ -260,9 +260,9 @@ public class SupplierFragment extends BaseFragment {
         }
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HHmmss").format(Calendar.getInstance().getTime());
         String productTitle = tx_product.getText().toString();
-        Details details = new Details(productTitle.length() > 0 ?productTitle : null, typeObj.getInfo().getCode(),Integer.parseInt(unit_price.getText().toString()), Integer.parseInt(total.getText().toString()),
+        Details details = new Details(productTitle.length() > 0 ?productTitle : "null", typeObj.getInfo().getCode(),Integer.parseInt(unit_price.getText().toString()), Integer.parseInt(total.getText().toString()),
                 Integer.parseInt(qty.getText().toString()), 0, updated_balance,
-                paid_amount ,null, timeStamp, Integer.parseInt(mrp.getText().toString()),Integer.valueOf(selling_price.getText().toString()) );
+                paid_amount ,"null", timeStamp, Integer.parseInt(mrp.getText().toString()),Integer.valueOf(selling_price.getText().toString()) );
 
         if(isConnected) {
             RetrofitService retrofitService = RetrofitAdapter.create();

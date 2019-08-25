@@ -5,29 +5,40 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class Info {
 
     @ColumnInfo
+@Expose
     private Integer clientId;
     @ColumnInfo
+@Expose
     private String contact;
     @ColumnInfo
+@Expose
     private long code;
     @ColumnInfo
+@Expose
     private String name;
     @ColumnInfo
+@Expose
     private String adress;
     @PrimaryKey
     @NonNull
     private Integer id;
     @ColumnInfo
+@Expose
     private String createdBy;
     @ColumnInfo
+@Expose
     private String creationDate;
     @ColumnInfo
+@Expose
     private String lastModifiedBy;
     @ColumnInfo
+@Expose
     private String lastModifiedDate;
 
     public Info(){

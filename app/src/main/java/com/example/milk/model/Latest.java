@@ -2,31 +2,45 @@ package com.example.milk.model;
 
 import androidx.room.ColumnInfo;
 
+import com.google.gson.annotations.Expose;
+
 public class Latest {
 
     @ColumnInfo
+@Expose
     private Integer clientId;
     @ColumnInfo
+@Expose
     private Integer unitPrice;
     @ColumnInfo
+@Expose
     private Integer total;
     @ColumnInfo
+@Expose
     private Integer quantity;
     @ColumnInfo
+@Expose
     private Integer productId;
     @ColumnInfo
+@Expose
     private String dateSale;
     @ColumnInfo
+@Expose
     private String custCode;
     @ColumnInfo
+@Expose
     private Integer id;
     @ColumnInfo
+@Expose
     private String createdBy;
     @ColumnInfo
+@Expose
     private String creationDate;
     @ColumnInfo
+@Expose
     private String lastModifiedBy;
     @ColumnInfo
+@Expose
     private String lastModifiedDate;
 
     public Latest(){

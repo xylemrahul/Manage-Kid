@@ -6,50 +6,53 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class Details {
     @PrimaryKey(autoGenerate = true)
     private int keyId;
-    @Ignore
-    private int clientId;
-    @Ignore
-    private int id;
     @ColumnInfo
-    private String createdBy;
-    @ColumnInfo
-    private String creationDate;
-    @ColumnInfo
-    private String lastModifiedBy;
-    @ColumnInfo
-    private String lastModifiedDate;
-    @ColumnInfo
+    @Expose
     private String title;
     @ColumnInfo
+    @Expose
     private long code;
     @ColumnInfo
+    @Expose
     private int unitPrice;
     @ColumnInfo
+    @Expose
     private int total;
     @ColumnInfo
+    @Expose
     private int quantity;
     @ColumnInfo
+    @Expose
     private int productId;
     @ColumnInfo
+    @Expose
     private int balance;
     @ColumnInfo
+    @Expose
     private int paid;
     @ColumnInfo
+    @Expose
     private String type;
     @ColumnInfo
+    @Expose
     private String dateSale;
     @ColumnInfo
+    @Expose
     private int mrp;
     @ColumnInfo
+    @Expose
     private int sellingPrice;
 
-    public Details(){
+    public Details() {
 
     }
+
     @Ignore
     public Details(String title, long code, int unitPrice, int total, int quantity, int productId,
                    int balance, int paid, String type, String dateSale, int mrp, int sellingPrice) {
@@ -73,54 +76,6 @@ public class Details {
 
     public void setKeyId(int keyId) {
         this.keyId = keyId;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-
-    public String getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(String lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
     }
 
     public String getTitle() {

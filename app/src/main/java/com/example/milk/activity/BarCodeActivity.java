@@ -27,6 +27,12 @@ public class BarCodeActivity extends BaseActivity implements BarcodeReader.Barco
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        flag = false;
+    }
+
+    @Override
     public void onScanned(Barcode barcode) {
 
         Log.e("barcode value", "onScanned: " + barcode.displayValue);

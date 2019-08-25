@@ -9,34 +9,48 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
+
 @Entity
 public class Product implements Parcelable {
 
     @PrimaryKey(autoGenerate = true)
     private int keyId;
     @ColumnInfo
+@Expose
     private int clientId;
     @ColumnInfo
+@Expose
     private int mrp;
     @ColumnInfo
+@Expose
     private int sellingPrice;
     @ColumnInfo
+@Expose
     private int unitPrice;
     @ColumnInfo
+@Expose
     private int quantity;
     @ColumnInfo
+@Expose
     private String code;
     @ColumnInfo
+@Expose
     private String title;
     @ColumnInfo
+@Expose
     private int id;
     @ColumnInfo
+@Expose
     private String createdBy;
     @ColumnInfo
+@Expose
     private String creationDate;
     @ColumnInfo
+@Expose
     private String lastModifiedBy;
     @ColumnInfo
+@Expose
     private String lastModifiedDate;
 
     protected Product(Parcel in) {

@@ -49,7 +49,7 @@ public class CustomerFragment extends BaseFragment {
     Spinner spProduct;
     private ProgressDialog progressDialog;
     Type typeObj = null;
-    int mrp;
+    int mrp, productId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -120,8 +120,10 @@ public class CustomerFragment extends BaseFragment {
         }
 
         code.setText(String.valueOf(typeObj.getInfo().getCode()));
-        prev_unit_price.setText(String.valueOf(typeObj.getLatest().getUnitPrice()));
-        qty.setText(String.valueOf(typeObj.getLatest().getQuantity()));
+        if(typeObj.getLatest()!=null) {
+            prev_unit_price.setText(String.valueOf(typeObj.getLatest().getUnitPrice()));
+        }
+//        qty.setText(String.valueOf(typeObj.getLatest().getQuantity()));
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,8 +183,10 @@ public class CustomerFragment extends BaseFragment {
         for (Product product : productList) {
 
             productTitle.add(product.getTitle());
-            if(typeObj.getLatest().getId() == product.getId()){
+            if(typeObj.getLatest() != null && (typeObj.getLatest().getProductId() == product.getId())){
                 defaultIndex = productList.indexOf(product);
+            }else{
+                prev_unit_price.setText(String.valueOf(productList.get(defaultIndex).getSellingPrice()));
             }
         }
 
@@ -193,6 +197,8 @@ public class CustomerFragment extends BaseFragment {
 
         unit_price.setText(String.valueOf(productList.get(defaultIndex).getSellingPrice()));
         mrp = productList.get(defaultIndex).getMrp();
+        productId = productList.get(defaultIndex).getId();
+        qty.setText(String.valueOf(productList.get(defaultIndex).getQuantity()));
 
         int final_total = Integer.parseInt(unit_price.getText().toString()) * Integer.parseInt(qty.getText().toString());
         int final_balance = 0;
@@ -212,9 +218,9 @@ public class CustomerFragment extends BaseFragment {
         }
 
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HHmmss").format(Calendar.getInstance().getTime());
-        Details details = new Details(null, typeObj.getInfo().getCode(),typeObj.getLatest().getUnitPrice(), Integer.parseInt(total.getText().toString()),
-                typeObj.getLatest().getQuantity(), typeObj.getLatest().getProductId(), updated_balance,
-                paid_amount ,null, timeStamp, mrp,Integer.valueOf(unit_price.getText().toString()) );
+        Details details = new Details("null", typeObj.getInfo().getCode(), Integer.parseInt(prev_unit_price.getText().toString()), Integer.parseInt(total.getText().toString()),
+                Integer.parseInt(qty.getText().toString()), productId, updated_balance,
+                paid_amount ,"null", timeStamp, mrp,Integer.valueOf(unit_price.getText().toString()) );
 
         if(isConnected) {
             RetrofitService retrofitService = RetrofitAdapter.create();

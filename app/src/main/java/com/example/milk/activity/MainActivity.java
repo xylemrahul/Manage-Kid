@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity {
                     bundle.putParcelable(AppUtilities.type_obj, response.body());
 
                     Fragment newFragment = null;
-                    if (response.body().getType() == "customer") {
+                    if (response.body().getType().equals("customer")) {
                         newFragment = new CustomerFragment();
                     } else {
                         newFragment = new SupplierFragment();
